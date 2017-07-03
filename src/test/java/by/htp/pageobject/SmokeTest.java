@@ -11,26 +11,28 @@ import by.htp.pageobject.page.MailPage;
 
 public class SmokeTest {
 	private static WebDriver driver;
+	private static MailPage mailPage;
 
 	@BeforeClass
 	public static void openBrowser() {
 		System.setProperty("webdriver.gecko.driver", "c://driver//geckodriver.exe");
 		driver = new FirefoxDriver();
+
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.open();
+		mailPage = loginPage.login();
 	}
 
 	@Test
 	public void sentBoxTest() {
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.open();
-		MailPage mailPage = loginPage.login();
-		mailPage.open();
-		mailPage.selectSentBox();
+		 mailPage.open();
+		 mailPage.selectSentBox();
 	}
-	
+
 	@Test
-	public void sendMailTest(){
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.open();
+	public void sendMailTest() {
+		mailPage.openEmailTemplate();
+		mailPage.composeEmail();
 	}
 
 	@AfterClass
